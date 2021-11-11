@@ -10,8 +10,10 @@ import useAuth from '../../hooks/useAuth'
 const Register = () => {
     const [userInfo, setUserInfo] = useState({})
     const history = useHistory()
-    const { createUser } = useAuth()
+    const { createUser ,user} = useAuth()
 
+
+    console.log('console log for user',user)
     const handleInfo = e => {
         const field = e.target.name;
         const value = e.target.value
@@ -23,9 +25,12 @@ const Register = () => {
     }
 
     const handleSignIn = e => {
-
         e.preventDefault()
-        createUser(userInfo.email, userInfo.password, history)
+        if (userInfo.password !== userInfo.password2) {
+            alert(`password didn't matched.`)
+            return
+        }
+        createUser(userInfo.email, userInfo.password, userInfo.name, history)
     }
     return (
         <Container>

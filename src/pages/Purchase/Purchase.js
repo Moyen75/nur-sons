@@ -1,13 +1,11 @@
-import { Button, Container, Grid, Paper, Typography } from '@mui/material';
+import {  Container, Grid, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import CardMedia from '@mui/material/CardMedia';
 import Rating from '@mui/material/Rating';
-import TextField from '@mui/material/TextField';
 import { useParams } from 'react-router';
 import useData from '../../hooks/useData';
 import TopNavigation from '../Home/TopNavigation/TopNavigation';
 import { Box } from '@mui/system';
-import useAuth from '../../hooks/useAuth';
 import OrderForm from './OrderForm/OrderForm';
 
 const Purchase = () => {

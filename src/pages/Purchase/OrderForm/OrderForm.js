@@ -1,11 +1,13 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import useAuth from '../../../hooks/useAuth';
 
 const OrderForm = ({ car }) => {
     const { user } = useAuth()
     const { name, price } = car;
+    const history = useHistory()
 
     const carInfo = {
         carName: name,
@@ -21,12 +23,14 @@ const OrderForm = ({ car }) => {
         const value = e.target.value;
         const newInfo = { ...buyerInfo }
         newInfo[field] = value;
+        const field2 = 'status'
+        newInfo[field2] = 'pending';
         setBuyerInfo(newInfo)
     }
 
     // handle form and post data to db
     const handleForm = e => {
-
+        console.log(buyerInfo)
         // 
         fetch('http://localhost:5000/orders', {
             method: 'POST',
@@ -40,6 +44,7 @@ const OrderForm = ({ car }) => {
                 if (data.insertedId) {
                     alert('Order placed successfully')
                     setBuyerInfo({})
+                    history.push('/dashboard/myOrders')
                 }
             })
         e.preventDefault()

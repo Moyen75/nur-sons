@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import initializeFirebase from "../Firebase/firebase.init"
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, signInWithPopup, GoogleAuthProvider, updateProfile } from "firebase/auth";
 
 
 initializeFirebase()
@@ -13,12 +13,27 @@ const useFirebase = () => {
     const auth = getAuth()
 
     // create user with email and password
-    const createUser = (email, password, history) => {
+    const createUser = (email, password, name, history) => {
         setIsLoading(true)
+        console.log('console log from firebase', name)
+
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
-                setUser(result.user)
-                history.push('/home')
+                // const newUser = { ...result.user}
+                // const displayName=name
+                // newUser[displayName]=displayName;
+                const newUser = { email, displayName: name }
+                setUser(newUser)
+                updateProfile(auth.currentUser, {
+                    displayName: name
+                })
+                    .then(() => {
+
+                    })
+                    .catch((error) => {
+                        setError(error)
+                    })
+                history.push('/')
             })
             .catch(error => {
                 setError(error.message)
@@ -42,7 +57,7 @@ const useFirebase = () => {
     // sign in with google
     const googleSignIn = (location, history) => {
         const googleProvider = new GoogleAuthProvider()
-        // setIsLoading(true)
+        setIsLoading(true)
         signInWithPopup(auth, googleProvider)
             .then(result => {
                 setUser(result.user)
@@ -66,16 +81,16 @@ const useFirebase = () => {
                 setUser({})
             }
         })
-        
+
         return () => unsubscribe;
     }, [auth])
 
     // sign out
-    const logout = () => {
+    const logout = (history) => {
         setIsLoading(true)
         signOut(auth)
             .then(() => {
-
+                history.push('/')
             })
             .catch(error => {
                 setError(error.message)

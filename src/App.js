@@ -7,6 +7,7 @@ import AuthProvider from './contexts/AuthProvider/AuthProvider';
 import AllCollection from './Shared/AllCollection/AllCollection';
 import Purchase from './pages/Purchase/Purchase';
 import PrivateRoute from './pages/PrivateRoute/PrivateRoute';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
             </PrivateRoute>
             <Route exact path='/allCollection'>
               <AllCollection></AllCollection>
+            </Route>
+            <Route path='/dashboard'>
+              <Dashboard></Dashboard>
             </Route>
           </Switch>
         </Router>

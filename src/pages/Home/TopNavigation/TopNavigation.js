@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +12,7 @@ import useAuth from '../../../hooks/useAuth';
 
 const TopNavigation = () => {
     const { user, logout } = useAuth()
+    const history=useHistory()
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{ backgroundColor: '#C6C1AA' }}>
@@ -32,10 +34,10 @@ const TopNavigation = () => {
                         {user.email && <NavLink style={{ textDecoration: 'none' }} to="/dashboard"> Dashboard</NavLink>}
 
                     </Typography>
-                    {user?.email && <Button onClick={logout}>Log out</Button>}
+                    {user?.email && <Button onClick={()=>logout(history)}>Log out</Button>}
                     {user?.email ? <Box>
                         <Typography>
-                            logged in as:{user.displayName}
+                            logged in as:{user?.displayName}
                         </Typography>
                     </Box> : <NavLink style={{ textDecoration: 'none' }} to='/login'>
                         Login
