@@ -8,13 +8,13 @@ const Reviews = () => {
     const [reviews, setReviews] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:5000/reviews')
+        fetch('https://arcane-meadow-17287.herokuapp.com/reviews')
             .then(res => res.json())
             .then(data => setReviews(data))
     }, [])
     return (
-        <Container>
-            <Typography variant='h4'>
+        <Container sx={{ m: 5 }}>
+            <Typography variant='h4' sx={{ m: 3 }}>
                 Customer's Feedback
             </Typography>
             <Grid container spacing={2}>

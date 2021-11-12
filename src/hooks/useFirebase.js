@@ -8,6 +8,7 @@ const useFirebase = () => {
     const [user, setUser] = useState({})
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(true)
+    const [isAdmin, setIsAdmin] = useState(false)
 
 
     const auth = getAuth()
@@ -15,20 +16,17 @@ const useFirebase = () => {
     // create user with email and password
     const createUser = (email, password, name, history) => {
         setIsLoading(true)
-        console.log('console log from firebase', name)
+
 
         createUserWithEmailAndPassword(auth, email, password)
             .then(result => {
-                // const newUser = { ...result.user}
-                // const displayName=name
-                // newUser[displayName]=displayName;
                 const newUser = { email, displayName: name }
                 setUser(newUser)
+                addToDb(email, name, "POST")
                 updateProfile(auth.currentUser, {
                     displayName: name
                 })
                     .then(() => {
-
                     })
                     .catch((error) => {
                         setError(error)
@@ -42,11 +40,12 @@ const useFirebase = () => {
     }
 
     //   sign in with email and password
-    const signIn = (email, password) => {
+    const signIn = (email, password,location,history) => {
         setIsLoading(true)
         signInWithEmailAndPassword(auth, email, password)
             .then(() => {
-
+                const redirect = location?.state?.from || '/'
+                history.push(redirect)
             })
             .catch(error => {
                 setError(error.message)
@@ -60,9 +59,11 @@ const useFirebase = () => {
         setIsLoading(true)
         signInWithPopup(auth, googleProvider)
             .then(result => {
-                setUser(result.user)
+                const user = result.user
+                setUser(user)
                 const redirect = location?.state?.from || '/'
                 history.push(redirect)
+                addToDb(user.email, user.displayName, "PUT")
             })
             .catch(error => {
                 setError(error.message)
@@ -98,6 +99,29 @@ const useFirebase = () => {
             .finally(() => setIsLoading(false))
     }
 
+
+    // add user info to database
+    const addToDb = (email, displayName, method) => {
+        const userInfo = { email, displayName }
+        fetch('https://arcane-meadow-17287.herokuapp.com/users', {
+            method: method,
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(userInfo)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+    }
+    // get admin
+    useEffect(() => {
+        fetch(`http://localhost:5000/users/${user.email}`)
+            .then(res => res.json())
+            .then(data => setIsAdmin(data.admin))
+    }, [user])
+
     return {
         user,
         error,
@@ -105,7 +129,8 @@ const useFirebase = () => {
         createUser,
         logout,
         googleSignIn,
-        isLoading
+        isLoading,
+        isAdmin
     }
 
 }

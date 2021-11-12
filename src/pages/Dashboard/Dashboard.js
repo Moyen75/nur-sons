@@ -20,6 +20,16 @@ import {
 import MyOrders from './MyOrders/MyOrders';
 import Review from './Review/Review';
 import Payment from './Payment/Payment';
+import MakeAdmin from './Admin/MakeAdmin/MakeAdmin';
+import ManageOrders from './ManageOrders/ManageOrders';
+import useUser from '../../hooks/useUser';
+import AdminRoute from './Admin/AdminRoute/AdminRoute';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import PaymentIcon from '@mui/icons-material/Payment';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const drawerWidth = 240;
 
@@ -29,6 +39,7 @@ function Dashboard(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const { logout } = useAuth()
+    const currentUser = useUser()
 
 
     let { path, url } = useRouteMatch();
@@ -45,13 +56,21 @@ function Dashboard(props) {
                 </Typography>
             </Toolbar>
             <Divider />
-            <NavLink style={{ textDecoration: 'none' }} to={`${url}/myOrders`}>My orders</NavLink>
-            <br />
-            <NavLink style={{ textDecoration: 'none' }} to={`${url}/review`}>Review</NavLink>
-            <br />
-            <NavLink style={{ textDecoration: 'none' }} to={`${url}/payment`}>Payment</NavLink>
-            <br />
-            <Button onClick={logout}>Log out</Button>
+            <Box sx={{ textAlign: 'left', marginLeft: 3 }}>
+                <NavLink style={{ textDecoration: 'none' }} to={`${url}/myOrders`}><EventNoteIcon/>My orders</NavLink>
+                <br />
+                <NavLink style={{ textDecoration: 'none' }} to={`${url}/review`}><ReviewsIcon/>Review</NavLink>
+                <br />
+                <NavLink style={{ textDecoration: 'none' }} to={`${url}/payment`}><PaymentIcon/>Payment</NavLink>
+                <br />
+                {currentUser?.role && <Box><NavLink style={{ textDecoration: 'none' }} to={`${url}/makeAdmin`}><AdminPanelSettingsIcon/>Make Admin</NavLink>
+                    <br />
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/manage`}><ManageAccountsIcon/>Manage All Orders</NavLink>
+                    <br />
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/manage`}><ManageAccountsIcon/>Manage Products</NavLink>
+                    <br /></Box>}
+                <Button onClick={logout}><LogoutIcon/>Log out</Button>
+            </Box>
 
         </div>
     );
@@ -81,7 +100,7 @@ function Dashboard(props) {
                     <Typography variant="h6" noWrap component="div">
                         Dashboard
                     </Typography>
-                    <NavLink style={{ textDecoration: 'none', marginLeft: 100, color: 'white' }} to='/'>Home</NavLink>
+                    <NavLink style={{ textDecoration: 'none', marginLeft: 100, color: 'white' }} to='/'>HomePage</NavLink>
                 </Toolbar>
 
             </AppBar>
@@ -127,14 +146,20 @@ function Dashboard(props) {
                         <MyOrders></MyOrders>
                     </Route>
                     <Route path={`${path}/myOrders`}>
-                       <MyOrders></MyOrders>
+                        <MyOrders></MyOrders>
                     </Route>
                     <Route path={`${path}/review`}>
-                       <Review></Review>
+                        <Review></Review>
                     </Route>
                     <Route path={`${path}/payment`}>
-                       <Payment></Payment>
+                        <Payment></Payment>
                     </Route>
+                    <AdminRoute path={`${path}/makeAdmin`}>
+                        <MakeAdmin></MakeAdmin>
+                    </AdminRoute>
+                    <AdminRoute path={`${path}/manage`}>
+                        <ManageOrders></ManageOrders>
+                    </AdminRoute>
                 </Switch>
             </Box>
         </Box>

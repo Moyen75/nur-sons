@@ -15,10 +15,10 @@ const MyOrders = () => {
     const [orders, setOrders] = useState([])
     const { user } = useAuth()
     useEffect(() => {
-        fetch(`http://localhost:5000/orders?email=${user?.email}`)
+        fetch(`https://arcane-meadow-17287.herokuapp.com/order?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setOrders(data))
-    }, [user,orders])
+    }, [user])
     return (
         <Container>
 

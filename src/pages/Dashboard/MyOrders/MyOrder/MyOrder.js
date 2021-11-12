@@ -2,7 +2,6 @@ import React from 'react';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Button } from '@mui/material';
 
 const MyOrder = ({ order }) => {
@@ -10,7 +9,7 @@ const MyOrder = ({ order }) => {
     const handleDeleteOrder = () => {
         const process = window.confirm('Are you sure to delete this order?')
         if (process) {
-            fetch(`http://localhost:5000/orders/${order._id}`, {
+            fetch(`https://arcane-meadow-17287.herokuapp.com/orders/${order._id}`, {
                 method: 'DELETE'
             })
                 .then(res => res.json())
@@ -33,8 +32,8 @@ const MyOrder = ({ order }) => {
                 </TableCell>
                 <TableCell align="center">{order.carName}</TableCell>
                 <TableCell align="center">${order.carPrice}</TableCell>
-                <TableCell align="center">{order.status}</TableCell>
-                <TableCell align="center"><Button onClick={handleDeleteOrder}> <DeleteForeverIcon /></Button></TableCell>
+                <TableCell align="center" >{order.status}</TableCell>
+                <TableCell align="center"><Button onClick={handleDeleteOrder} variant='contained' sx={{ backgroundColor: 'green' }}> Cancel order</Button></TableCell>
             </TableRow>
         </TableBody>
     );

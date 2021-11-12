@@ -32,7 +32,7 @@ const OrderForm = ({ car }) => {
     const handleForm = e => {
         console.log(buyerInfo)
         // 
-        fetch('http://localhost:5000/orders', {
+        fetch('https://arcane-meadow-17287.herokuapp.com/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

@@ -34,9 +34,9 @@ function App() {
             <Route exact path='/allCollection'>
               <AllCollection></AllCollection>
             </Route>
-            <Route path='/dashboard'>
+            <PrivateRoute path='/dashboard'>
               <Dashboard></Dashboard>
-            </Route>
+            </PrivateRoute>
           </Switch>
         </Router>
       </AuthProvider>
