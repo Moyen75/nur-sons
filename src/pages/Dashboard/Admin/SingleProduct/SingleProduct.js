@@ -9,16 +9,19 @@ const SingleProduct = ({ car }) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleDeleteProduct = (id) => {
-        fetch(`https://arcane-meadow-17287.herokuapp.com/cars/${id}`, {
-            method: 'DELETE'
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.deletedCount > 0) {
-                    alert('Product deleted successfully')
-                }
-                console.log(data)
+        const process = window.confirm('Are you sure to delete this Car??')
+        if (process) {
+            fetch(`https://arcane-meadow-17287.herokuapp.com/cars/${id}`, {
+                method: 'DELETE'
             })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.deletedCount > 0) {
+                        alert('Product deleted successfully')
+                    }
+                    console.log(data)
+                })
+        }
     }
     return (
         <>
@@ -42,8 +45,8 @@ const SingleProduct = ({ car }) => {
                     <Typography>
                         price:${price}
                     </Typography>
-                        <Button variant='contained' sx={{ width: '45%', mb: 1 }} onClick={handleOpen}>Update</Button>
-                    
+                    <Button variant='contained' sx={{ width: '45%', mb: 1 }} onClick={handleOpen}>Update</Button>
+
                     <Button onClick={() => handleDeleteProduct(_id)} variant='contained' sx={{ width: '45%', marginLeft: 1, mb: 1 }}>Delete</Button>
                 </Paper>
 
