@@ -18,7 +18,7 @@ const MyOrders = () => {
         fetch(`https://arcane-meadow-17287.herokuapp.com/order?email=${user?.email}`)
             .then(res => res.json())
             .then(data => setOrders(data))
-    }, [user])
+    }, [user,orders])
     return (
         <Container>
 

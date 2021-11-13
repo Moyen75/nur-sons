@@ -22,7 +22,6 @@ import Review from './Review/Review';
 import Payment from './Payment/Payment';
 import MakeAdmin from './Admin/MakeAdmin/MakeAdmin';
 import ManageOrders from './ManageOrders/ManageOrders';
-import useUser from '../../hooks/useUser';
 import AdminRoute from './Admin/AdminRoute/AdminRoute';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import EventNoteIcon from '@mui/icons-material/EventNote';
@@ -30,6 +29,9 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import UpdateIcon from '@mui/icons-material/Update';
+import AddProduct from './Admin/AddProduct/AddProduct';
 
 const drawerWidth = 240;
 
@@ -38,8 +40,8 @@ const drawerWidth = 240;
 function Dashboard(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const { logout } = useAuth()
-    const currentUser = useUser()
+    const { logout, isAdmin } = useAuth()
+
 
 
     let { path, url } = useRouteMatch();
@@ -57,19 +59,24 @@ function Dashboard(props) {
             </Toolbar>
             <Divider />
             <Box sx={{ textAlign: 'left', marginLeft: 3 }}>
-                <NavLink style={{ textDecoration: 'none' }} to={`${url}/myOrders`}><EventNoteIcon/>My orders</NavLink>
-                <br />
-                <NavLink style={{ textDecoration: 'none' }} to={`${url}/review`}><ReviewsIcon/>Review</NavLink>
-                <br />
-                <NavLink style={{ textDecoration: 'none' }} to={`${url}/payment`}><PaymentIcon/>Payment</NavLink>
-                <br />
-                {currentUser?.role && <Box><NavLink style={{ textDecoration: 'none' }} to={`${url}/makeAdmin`}><AdminPanelSettingsIcon/>Make Admin</NavLink>
+                {isAdmin ? <Box><NavLink style={{ textDecoration: 'none' }} to={`${url}/makeAdmin`}><AdminPanelSettingsIcon />Make Admin</NavLink>
                     <br />
-                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/manage`}><ManageAccountsIcon/>Manage All Orders</NavLink>
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/manage`}><ManageAccountsIcon />Manage All Orders</NavLink>
                     <br />
-                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/manage`}><ManageAccountsIcon/>Manage Products</NavLink>
-                    <br /></Box>}
-                <Button onClick={logout}><LogoutIcon/>Log out</Button>
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/addProduct`}><AddBoxIcon />Add product</NavLink>
+                    <br />
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/manage`}><UpdateIcon />Manage Products</NavLink>
+                    <br /></Box> : <Box>
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/myOrders`}><EventNoteIcon />My orders</NavLink>
+                    <br />
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/review`}><ReviewsIcon />Review</NavLink>
+                    <br />
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/payment`}><PaymentIcon />Payment</NavLink>
+                    <br />
+                </Box>
+
+                }
+                <Button onClick={logout}><LogoutIcon />Log out</Button>
             </Box>
 
         </div>
@@ -142,24 +149,36 @@ function Dashboard(props) {
             >
                 <Toolbar />
                 <Switch>
-                    <Route exact path={path}>
-                        <MyOrders></MyOrders>
-                    </Route>
-                    <Route path={`${path}/myOrders`}>
-                        <MyOrders></MyOrders>
-                    </Route>
-                    <Route path={`${path}/review`}>
-                        <Review></Review>
-                    </Route>
-                    <Route path={`${path}/payment`}>
-                        <Payment></Payment>
-                    </Route>
-                    <AdminRoute path={`${path}/makeAdmin`}>
-                        <MakeAdmin></MakeAdmin>
-                    </AdminRoute>
-                    <AdminRoute path={`${path}/manage`}>
-                        <ManageOrders></ManageOrders>
-                    </AdminRoute>
+                    {isAdmin ? <Box>
+                        <AdminRoute exact path={path}>
+                            <ManageOrders></ManageOrders>
+                        </AdminRoute>
+                        <AdminRoute path={`${path}/makeAdmin`}>
+                            <MakeAdmin></MakeAdmin>
+                        </AdminRoute>
+                        <AdminRoute path={`${path}/manage`}>
+                            <ManageOrders></ManageOrders>
+                        </AdminRoute>
+                        <AdminRoute path={`${path}/addProduct`}>
+                            <AddProduct></AddProduct>
+                        </AdminRoute>
+                    </Box> : <Box>
+
+                        <Route exact path={path}>
+                            <MyOrders></MyOrders>
+                        </Route>
+                        <Route path={`${path}/myOrders`}>
+                            <MyOrders></MyOrders>
+                        </Route>
+                        <Route path={`${path}/review`}>
+                            <Review></Review>
+                        </Route>
+                        <Route path={`${path}/payment`}>
+                            <Payment></Payment>
+                        </Route>
+                    </Box>
+
+                    }
                 </Switch>
             </Box>
         </Box>
