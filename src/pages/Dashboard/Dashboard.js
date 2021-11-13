@@ -32,6 +32,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import UpdateIcon from '@mui/icons-material/Update';
 import AddProduct from './Admin/AddProduct/AddProduct';
+import ManageProduct from './Admin/ManageProduct/ManageProduct';
 
 const drawerWidth = 240;
 
@@ -59,14 +60,15 @@ function Dashboard(props) {
             </Toolbar>
             <Divider />
             <Box sx={{ textAlign: 'left', marginLeft: 3 }}>
-                {isAdmin ? <Box><NavLink style={{ textDecoration: 'none' }} to={`${url}/makeAdmin`}><AdminPanelSettingsIcon />Make Admin</NavLink>
+                {isAdmin && <Box><NavLink style={{ textDecoration: 'none' }} to={`${url}/makeAdmin`}><AdminPanelSettingsIcon />Make Admin</NavLink>
                     <br />
                     <NavLink style={{ textDecoration: 'none' }} to={`${url}/manage`}><ManageAccountsIcon />Manage All Orders</NavLink>
                     <br />
                     <NavLink style={{ textDecoration: 'none' }} to={`${url}/addProduct`}><AddBoxIcon />Add product</NavLink>
                     <br />
-                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/manage`}><UpdateIcon />Manage Products</NavLink>
-                    <br /></Box> : <Box>
+                    <NavLink style={{ textDecoration: 'none' }} to={`${url}/manageProduct`}><UpdateIcon />Manage Products</NavLink>
+                    <br /></Box>}
+                <Box>
                     <NavLink style={{ textDecoration: 'none' }} to={`${url}/myOrders`}><EventNoteIcon />My orders</NavLink>
                     <br />
                     <NavLink style={{ textDecoration: 'none' }} to={`${url}/review`}><ReviewsIcon />Review</NavLink>
@@ -75,7 +77,7 @@ function Dashboard(props) {
                     <br />
                 </Box>
 
-                }
+
                 <Button onClick={logout}><LogoutIcon />Log out</Button>
             </Box>
 
@@ -149,36 +151,36 @@ function Dashboard(props) {
             >
                 <Toolbar />
                 <Switch>
-                    {isAdmin ? <Box>
-                        <AdminRoute exact path={path}>
-                            <ManageOrders></ManageOrders>
-                        </AdminRoute>
-                        <AdminRoute path={`${path}/makeAdmin`}>
-                            <MakeAdmin></MakeAdmin>
-                        </AdminRoute>
-                        <AdminRoute path={`${path}/manage`}>
-                            <ManageOrders></ManageOrders>
-                        </AdminRoute>
-                        <AdminRoute path={`${path}/addProduct`}>
-                            <AddProduct></AddProduct>
-                        </AdminRoute>
-                    </Box> : <Box>
+                {!isAdmin&&<Route exact path={path}>
+                    <MyOrders></MyOrders>
+                </Route>}
+                    <Route path={`${path}/myOrders`}>
+                        <MyOrders></MyOrders>
+                    </Route>
+                    <Route path={`${path}/review`}>
+                        <Review></Review>
+                    </Route>
+                    <Route path={`${path}/payment`}>
+                        <Payment></Payment>
+                    </Route>
+                    <AdminRoute exact path={path}>
+                        <ManageProduct></ManageProduct>
+                    </AdminRoute>
+                    <AdminRoute path={`${path}/makeAdmin`}>
+                        <MakeAdmin></MakeAdmin>
+                    </AdminRoute>
+                    <AdminRoute path={`${path}/addProduct`}>
+                        <AddProduct></AddProduct>
+                    </AdminRoute>
+                    <AdminRoute path={`${path}/manage`}>
+                        <ManageOrders></ManageOrders>
+                    </AdminRoute>
+                    <AdminRoute path={`${path}/manageProduct`}>
+                        <ManageProduct></ManageProduct>
+                    </AdminRoute>
 
-                        <Route exact path={path}>
-                            <MyOrders></MyOrders>
-                        </Route>
-                        <Route path={`${path}/myOrders`}>
-                            <MyOrders></MyOrders>
-                        </Route>
-                        <Route path={`${path}/review`}>
-                            <Review></Review>
-                        </Route>
-                        <Route path={`${path}/payment`}>
-                            <Payment></Payment>
-                        </Route>
-                    </Box>
 
-                    }
+
                 </Switch>
             </Box>
         </Box>
