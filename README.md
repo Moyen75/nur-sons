@@ -1,8 +1,13 @@
-# Getting Started with Create React App
+# Nur & Sons Auto
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project [Live site](https://assignment-12-782e1.web.app/).
 
-## Available Scripts
+# This website contains:
+ ### *some latest car
+ ### *Hiring a car
+ ### *Customer Reviews
+ ### *Admin panel
+ ### *Updating product
 
 In the project directory, you can run:
 
