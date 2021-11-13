@@ -17,7 +17,7 @@ const AddProduct = () => {
     }
 
     const handleAddProduct = e => {
-        fetch('http://localhost:5000/cars', {
+        fetch('https://arcane-meadow-17287.herokuapp.com/cars', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
