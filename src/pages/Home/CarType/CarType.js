@@ -7,6 +7,11 @@ import banner2 from '../../../images/banner_3_895x700_crop_center.png'
 const CarType = () => {
     return (
         <Container sx={{mt:2}}>
+            <Typography variant='h4' sx={{mb:2}}>
+                Upcoming features
+                <hr style={{ width: '300px', textAlign: 'center' }} />
+            </Typography>
+            
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={6}>
                     <img style={{ width: '100%' }} src={banner1} alt="" />

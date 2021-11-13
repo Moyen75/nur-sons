@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material';
+import { Avatar, Container, Grid, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import CardMedia from '@mui/material/CardMedia';
 import Rating from '@mui/material/Rating';
@@ -15,26 +15,28 @@ const Reviews = () => {
     return (
         <Container sx={{ m: 5 }}>
             <Typography variant='h4' sx={{ m: 3 }}>
-                Customer's Feedback
+                <hr style={{ width: '300px', textAlign: 'center' }} />
+                What Clients Say
             </Typography>
-            <Grid container spacing={2}>
+            <Typography>
+                We’ve put together a bonus resource sharing the best customer testimonial emails we’ve seen.
+            </Typography>
+            <hr style={{ width: '300px', textAlign: 'center', mb: 4 }} />
+            <Grid container spacing={2} sx={{mt:3,mb:3}}>
                 {
                     reviews?.map(review => <Grid item xs={12} md={3}
                         key={review._id}
                     >
-                        <CardMedia
-                            component="img"
-                            height="140"
-                            image={userImg}
-                            alt="green iguana"
-                        />
-                        <Typography variant='h5'>
-                            {review.user}
-                        </Typography>
-                        <Rating name="read-only" value={review.rating} readOnly />
-                        <Typography>
-                            {review.reviewText}
-                        </Typography>
+                        <Paper>
+                            <Avatar alt="Remy Sharp" src={userImg} />
+                            <Typography variant='h5'>
+                                {review.user}
+                            </Typography>
+                            <Rating name="read-only" value={review.rating} readOnly />
+                            <Typography>
+                                {review.reviewText}
+                            </Typography>
+                        </Paper>
                     </Grid>)
                 }
             </Grid>
