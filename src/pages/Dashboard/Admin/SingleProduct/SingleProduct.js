@@ -1,6 +1,5 @@
 import { Button, CardMedia, Grid, Paper, Rating, Typography } from '@mui/material';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import UpdateProduct from '../UpdateProduct/UpdateProduct';
 
 const SingleProduct = ({ car }) => {

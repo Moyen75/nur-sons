@@ -55,7 +55,7 @@ const Review = () => {
                 if (data.insertedId) {
                     alert('Thank you for your feedback.')
                     setText('')
-                    history.push('/dashboard')
+                    history.push('/')
                 }
             })
             e.preventDefault()
